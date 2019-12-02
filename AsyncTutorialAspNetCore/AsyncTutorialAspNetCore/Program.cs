@@ -17,10 +17,10 @@ namespace AsyncTutorialAspNetCore
 
         public static void Main(string[] args)
         {
-            new Thread(ShowThreadStats)
+            /*new Thread(ShowThreadStats)
             {
                 IsBackground = true
-            }.Start();
+            }.Start();*/
 
             CreateWebHostBuilder(args).Build().Run();
         }
@@ -30,6 +30,7 @@ namespace AsyncTutorialAspNetCore
             .ConfigureLogging(builder =>
             {
                 builder.ClearProviders();
+                builder.AddConsole();
             })
             .UseStartup<Startup>();
 

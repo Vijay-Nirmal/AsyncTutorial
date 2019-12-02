@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AsyncTutorialAspNetCore.Services;
+using Ben.Diagnostics;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,12 +28,21 @@ namespace AsyncTutorialAspNetCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Service Creation Async
+            services.AddSingleton<IBwoServiceConnection, BwoServiceConnection>();
+            services.AddSingleton<IBwoService>(provider => provider.GetRequiredService<IBwoServiceConnection>().ConnectAsync().Result);
+            #region Answer For Service Creation Async
+            // services.AddSingleton<IBwoService, LazyBwoService>();
+            #endregion
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseBlockingDetection();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

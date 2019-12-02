@@ -1,20 +1,18 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace AsyncTutorialAspNetCore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class AsyncAdvantageController : ControllerBase
     {
-        private readonly ILogger<ValuesController> _logger;
+        private readonly ILogger<AsyncAdvantageController> _logger;
 
-        public ValuesController(ILogger<ValuesController> logger)
+        public AsyncAdvantageController(ILogger<AsyncAdvantageController> logger)
         {
             _logger = logger;
         }
