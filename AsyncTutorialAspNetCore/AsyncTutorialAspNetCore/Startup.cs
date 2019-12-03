@@ -28,6 +28,8 @@ namespace AsyncTutorialAspNetCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+
             // Service Creation Async
             services.AddSingleton<IBwoServiceConnection, BwoServiceConnection>();
             services.AddSingleton<IBwoService>(provider => provider.GetRequiredService<IBwoServiceConnection>().ConnectAsync().Result);

@@ -10,13 +10,6 @@ namespace AsyncTutorialAspNetCore.Controllers
     [ApiController]
     public class AsyncAdvantageController : ControllerBase
     {
-        private readonly ILogger<AsyncAdvantageController> _logger;
-
-        public AsyncAdvantageController(ILogger<AsyncAdvantageController> logger)
-        {
-            _logger = logger;
-        }
-
         [HttpGet]
         [Route("sleep")]
         public ActionResult<IEnumerable<string>> Sleep()
