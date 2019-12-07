@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace AsyncTutorialAspNetCore.Controllers
 {
@@ -175,9 +178,39 @@ namespace AsyncTutorialAspNetCore.Controllers
             // Improves performs by avoiding unnecessary thread switching
             // Mainly used for Libraries
 
-            // AspNetCore doesn't have SynchronizationContext so it will act as ConfigureAwait(false)
+            // AspNetCore doesn't have SynchronizationContext
 
             return await InnerMethod().ConfigureAwait(false);
+        }
+
+        [HttpGet]
+        [Route("await-thread-switching")]
+        public async Task<IList<string>> AwaitThreadSwitching()
+        {
+            var result = new List<string>();
+            result.Add($"This is Outer Started - {Thread.CurrentThread.ManagedThreadId}");
+            await Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+                result.Add($"This is Inner - {Thread.CurrentThread.ManagedThreadId}");
+            });
+            result.Add($"This is Outer Finished - {Thread.CurrentThread.ManagedThreadId}");
+            return result;
+        }
+
+        [HttpGet]
+        [Route("wait-thread-switching")]
+        public IList<string> WaitThreadSwitching()
+        {
+            var result = new List<string>();
+            result.Add($"This is Outer Started - {Thread.CurrentThread.ManagedThreadId}");
+            Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+                result.Add($"This is Inner - {Thread.CurrentThread.ManagedThreadId}");
+            }).Wait();
+            result.Add($"This is Outer Finished - {Thread.CurrentThread.ManagedThreadId}");
+            return result;
         }
 
         // Empty Body Overhead -> Just by adding async without any await, it will create overhead
