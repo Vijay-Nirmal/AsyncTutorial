@@ -33,6 +33,8 @@ namespace AsyncTutorialAspNetCore.Services
 
     #region Answer For Service Creation Async
 
+    // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-3.1#recommendations
+
     public class LazyBwoService : IBwoService
     {
         private readonly AsyncLazy<IBwoService> _connectionTask;
