@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -95,7 +96,7 @@ namespace AsyncTutorialAspNetCore.Controllers
 
         [HttpGet]
         [Route("list-error")]
-        public async Task ListError()
+        public async Task<IList<string>> ListError()
         {
             var users = new List<string>();
             var tasks = new List<Task>();
@@ -104,6 +105,7 @@ namespace AsyncTutorialAspNetCore.Controllers
             tasks.Add(AddUser(users, 2));
 
             await Task.WhenAll(tasks);
+            return users;
 
             #region Answer For List Error
 
